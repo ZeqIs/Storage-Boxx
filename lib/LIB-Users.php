@@ -19,13 +19,13 @@ class Users extends Core
   //  $email : user email
   //  $password : user password
   //  $id : user id (for updating only)
-  function save($name, $email, $password, $id = null, $image = null, $imageName = null)
+  function save($name, $email, $password, $image = null, $imageName = "default.png", $upload = false, $id = null)
   {
     // (B1) DATA SETUP + PASSWORD CHECK
     if (!$this->checker($password)) {
       return false;
     }
-    if ($image !== null && $imageName !== null) {
+    if (!!$image && $imageName !== "default.png" && $upload) {
       $myfile = fopen("../images/profileimg/$imageName", "w") or die("Unable to open file!");
       $txt = base64_decode($image);
       fwrite($myfile, $txt);
@@ -43,7 +43,6 @@ class Users extends Core
     } else {
       $fields = ["user_name", "user_email", "user_password", "user_profilepic"];
       $data = [$name, $email, password_hash($password, PASSWORD_DEFAULT), $imageName];
-
       // (B2) ADD/UPDATE USER
       if ($id === null) {
         $this->DB->insert("users", $fields, $data);

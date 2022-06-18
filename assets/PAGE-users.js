@@ -4,6 +4,7 @@ var usr = {
   find: "", // CURRENT SEARCH
   imageURL: "",
   imageName: "",
+  upload: false,
   list: () => {
     cb.page(1);
     cb.load({
@@ -47,13 +48,18 @@ var usr = {
   },
 
   fileUpload: () => {
+    usr.imageName = "";
     var fileInput = document.querySelector("#profileimg");
+    var prevFile = document.querySelector("#prevFile");
+    usr.imageName = prevFile.value;
+    console.log(prevFile.value, usr.imageName);
     fileInput.addEventListener("change", function (e) {
+      usr.upload = true;
       usr.imageName = e.target.files[0].name;
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         const uploaded_image = reader.result;
-        usr.imageURL = reader.result.split('\,');
+        usr.imageURL = reader.result.split(",");
         document.querySelector("#preview").src = uploaded_image;
       });
       reader.readAsDataURL(this.files[0]);
@@ -63,12 +69,16 @@ var usr = {
   // (E) SAVE USER
   save: () => {
     // (E1) GET DATA\
+
     var data = {
-      image: usr.imageURL[1],
-      imageName: usr.imageName,
       name: document.getElementById("user_name").value,
       email: document.getElementById("user_email").value,
       password: document.getElementById("user_password").value,
+      image: usr.upload ? usr.imageURL[1] : "",
+      imageName: usr.upload
+        ? usr.imageName
+        : document.getElementById("prevFile").value,
+      upload: usr.upload,
     };
     var id = document.getElementById("user_id").value;
     if (id != "") {
@@ -76,18 +86,23 @@ var usr = {
     }
 
     // (E2) PASSWORD STRENGTH
+    var confPass = document.getElementById("confirm_password").value;
+    var password = document.getElementById("user_password").value;
     if (!cb.checker(data.password)) {
       cb.modal("Error", "Password must be at least 8 characters alphanumeric");
+      return false;
+    } else if(confPass !== password){
+      cb.modal("Error", "Password and Confirm Password did not match");
       return false;
     }
 
     // (E3) AJAX
     cb.api({
-      mod : "users",
-      req : "save",
-      data : data,
-      passmsg : "User Saved",
-      onpass : usr.list
+      mod: "users",
+      req: "save",
+      data: data,
+      passmsg: "User Saved",
+      onpass: usr.list,
     });
     return false;
   },
