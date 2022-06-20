@@ -204,7 +204,7 @@ var cb = {
   load : (opt) => {
     // (D1) INIT OPTIONS
     var options = {};
-    options.url = cbhost.base + `${opt.page}/`;
+    options.url = cbhost.base + `${opt.test ? opt.test : opt.page+'/'}`;
     if (opt.loading!=undefined) { options.loading = opt.loading; }
     if (opt.debug!=undefined) { options.debug = opt.debug; }
     if (opt.onerr) { options.onerr = opt.onerr; }
