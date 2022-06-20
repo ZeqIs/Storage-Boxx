@@ -268,16 +268,12 @@ var cb = {
   load: (opt) => {
     // (D1) INIT OPTIONS
     var options = {};
-    options.url = cbhost.base + `${opt.page}/`;
-    if (opt.loading != undefined) {
-      options.loading = opt.loading;
-    }
-    if (opt.debug != undefined) {
-      options.debug = opt.debug;
-    }
-    if (opt.onerr) {
-      options.onerr = opt.onerr;
-    }
+
+    options.url = cbhost.base + `${opt.test ? opt.test : opt.page+'/'}`;
+    if (opt.loading!=undefined) { options.loading = opt.loading; }
+    if (opt.debug!=undefined) { options.debug = opt.debug; }
+    if (opt.onerr) { options.onerr = opt.onerr; }
+
     if (opt.data) {
       opt.data["ajax"] = 1;
       options.data = opt.data;
@@ -313,6 +309,21 @@ var cb = {
         },
       });
     });
+  },
+
+  // (F) FORGOT PASSWORD
+  forgot : () => {
+    cb.modal(
+      "Please Verify Your Email", "<form onsubmit='return cb.success();'<div class='input-group'><span class='input-group-text mi' title='Email'>email</span><input type='email' id='user_email' class='form-control' placeholder='Email' required /></div>",
+      "<button onclick='cb.success()' type='submit' class='btn btn-primary' name='reset'>Reset</button></form>" 
+    // () => {
+    //    cb.api({
+    //    mod : "session", req : "logout",
+    //    passmsg : false,
+    //    onpass : () => { location.href = cbhost.base + "login/"; }
+    //    });
+    // } 
+    );
   },
 
   // (F) PASSWORD/HASH STRENGTH CHECKER

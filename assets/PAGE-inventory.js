@@ -101,8 +101,8 @@ var inv = {
   },
 
   // (I) GENERATE QR CODE
-  qrcode : (sku) => {
-    window.open(cbhost.base + "qrcode/?sku="+sku);
+  qrcode : (sku, name, desc, unit, qty) => {
+    window.open(cbhost.base + "qrcode/?sku="+sku + "&name="+name + "&desc="+desc + "&unit="+unit + "&qty="+qty);
   }
 };
 window.addEventListener("load", inv.list);
