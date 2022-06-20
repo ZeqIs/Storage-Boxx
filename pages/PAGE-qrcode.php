@@ -57,12 +57,10 @@ require PATH_PAGES . "TEMPLATE-top.php";
               </tr>
             </table>
           </div>
-          </div>
   </div>
-      <input type="button" class="col btn btn-danger btn-lg" value="Back" onclick="cb.page(1)"/>
-      <input type="submit" class="col btn btn-primary btn-lg"  onclick="printContent('divToPrint')" value="Print"/>
+</div>
+    <input type="submit" class="col btn btn-primary btn-lg"  onclick="printContent('divToPrint')" value="Print"/>
     
-  
   <script src="<?=HOST_ASSETS?>qrcode.min.js"></script>
   <script>
     new QRCode(document.getElementById("qrcode"), "<?=$_GET["sku"]?>");
