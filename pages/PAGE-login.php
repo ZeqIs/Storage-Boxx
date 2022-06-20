@@ -15,7 +15,7 @@ require PATH_PAGES . "TEMPLATE-top.php"; ?>
       <div class="col-4" style="background:url('<?= HOST_ASSETS ?>desk.jpg') center"></div>
       <form class="col-8 p-5" onsubmit="return signin();">
         <div style="display: flex">
-          <img src="<?= HOST_ASSETS ?>favicon.png" class="p-1 bg-primary rounded-circle" />
+          <img alt="page icon" src="<?= HOST_ASSETS ?>favicon.png" class="p-1 bg-primary rounded-circle" />
           <h3 style="display: flex; align-Items: center; justify-Content: center;">Storage-Boxx</h3>
         </div>
         <h3 class="my-4">PLEASE SIGN IN</h3>
