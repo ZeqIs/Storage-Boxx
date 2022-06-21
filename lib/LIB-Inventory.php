@@ -56,7 +56,10 @@ class Inventory extends Core {
     // (B2) REMOVE MOVEMENT
     $this->DB->delete("stock_mvt", "`stock_sku`=?", [$sku]);
 
-    // (B3) RESULT
+    //(B3) REMOVE UNIT
+    $this->DB->delete("stock_unit", "`description`=?", [$sku]);
+
+    // (B4) RESULT
     $this->DB->end();
     return true;
   }
@@ -174,5 +177,12 @@ class Inventory extends Core {
     return $page != null
      ? ["data" => $items, "page" => $pgn]
      : $items ;
+  }
+
+  //(G) GET STOCK UNIT
+  function getUnit(){
+    return $this->DB->fetchAll(
+      "SELECT * FROM `stock_unit`"
+    );
   }
 }

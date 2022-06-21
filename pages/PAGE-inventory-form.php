@@ -1,5 +1,6 @@
 <?php
 // (A) GET ITEM
+$iv_unit = $_CORE->autoCall("Inventory", "getUnit");
 $edit = isset($_POST["sku"]) && $_POST["sku"]!="";
 if ($edit) {
   $item = $_CORE->autoCall("Inventory", "get");
@@ -37,14 +38,17 @@ if ($edit) {
       <div class="input-group-prepend">
         <span class="input-group-text mi">straighten</span>
       </div>
-      <input type="text" class="form-control" id="inv-unit" required value="<?=$edit?$item["stock_unit"]:""?>" placeholder="Unit of Measurement"/>
-    </div>
-    <div class="p-1">
-      <span onclick="inv.unit('PC')">[PC]</span>
-      <span onclick="inv.unit('EA')">[EA]</span>
-      <span onclick="inv.unit('BX')">[BX]</span>
-      <span onclick="inv.unit('CS')">[CS]</span>
-      <span onclick="inv.unit('PL')">[PL]</span>
+      <select class="form-control" style="border-color: #CED4F4; background-color: #ffffff;" id="inv-unit" required>
+        <option value ="">Unit of Measurement</option>
+        <?php foreach($iv_unit as $unit){
+          if($edit && ($item["stock_unit"]==$unit["code"])){
+            echo '<option value="'.$unit['code'].'" selected>'.$unit['description'].' ['.$unit['code'].']</option>';  
+          }else{
+            echo '<option value="'.$unit['code'].'">'.$unit['description'].' ['.$unit['code'].']</option>';
+          }
+        } 
+        ?> 
+      </select>
     </div>
   </div>
 
