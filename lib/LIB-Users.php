@@ -30,7 +30,7 @@ class Users extends Core
       $txt = base64_decode($image);
       fwrite($myfile, $txt);
       fclose($myfile);
-      $fields = ["user_name", "user_email", "user_password", "user_profilepic"];
+      $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
       $data = [$name, $email, $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
       // (B2) ADD/UPDATE USER
       if ($id === null) {
@@ -41,7 +41,7 @@ class Users extends Core
       }
       return true;
     } else {
-      $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
+      $fields = ["user_name", "user_email","user_role", "user_password", "user_profilepic"];
       $data = [$name, $email, $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
 
       // (B2) ADD/UPDATE USER
