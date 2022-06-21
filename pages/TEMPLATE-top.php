@@ -145,6 +145,12 @@
                   </ul>
               </div>
           </li>
+          <?php 
+              $user = $this->DB->fetch(
+                "SELECT `user_role` FROM `users` WHERE `user_role`=?", [$_SESS["user"]["user_role"]]
+              );
+              if($user['user_role'] == 'Admin'){
+          ?>
           <li class="nav-item">
             <a class="nav-link" href="<?=HOST_BASE?>users">
               <span class="mi mi-smol">people</span> Users
@@ -155,6 +161,8 @@
               <span class="mi mi-smol">settings</span> Settings
             </a>
           </li>
+          <?php
+          }?>
         </ul>
         <hr>
         <ul class="navbar-nav">

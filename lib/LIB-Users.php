@@ -59,7 +59,7 @@ class Users extends Core
   //  $name : user name
   //  $email : user email
   //  $password : user password
-  function register($name, $email, $password)
+  function register($name, $email, $role, $password)
   {
     // (C1) ALREADY SIGNED IN
     global $_SESS;
@@ -78,7 +78,7 @@ class Users extends Core
     // USER ROLE?
 
     // (C4) SAVE
-    $this->save($name, $email, $password);
+    $this->save($name, $email, $role, $password);
     return true;
   }
 
