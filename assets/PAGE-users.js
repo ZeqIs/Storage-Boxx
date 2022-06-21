@@ -73,6 +73,7 @@ var usr = {
     var data = {
       name: document.getElementById("user_name").value,
       email: document.getElementById("user_email").value,
+role: document.getElementById("user_role").value,
       password: document.getElementById("user_password").value,
       image: usr.upload ? usr.imageURL[1] : "",
       imageName: usr.upload

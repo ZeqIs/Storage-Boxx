@@ -52,6 +52,19 @@ if ($edit) {
     </div>
 
     <div class="input-group mb-3">
+
+      <div class="input-group-prepend">
+        <span class="input-group-text mi">badge</span>
+      </div>
+        <select class="form-control" name="role" id="user_role" required>
+          <option value="Manager">Manager</option>
+          <option value="Inventory Analyst">Inventory Analyst</option>
+          <option value="Order Picker">Order Picker</option>
+          <option value="Purchasing Clerk">Purchasing Clerk</option>
+        </select>
+    </div>
+
+    <div class="input-group">
       <div class="input-group-prepend">
         <span title="Password" class="input-group-text mi">lock</span>
       </div>
