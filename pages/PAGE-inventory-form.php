@@ -34,6 +34,13 @@ if ($edit) {
       <input type="text" id="inv-desc" class="form-control" value="<?=$edit?$item["stock_desc"]:""?>" placeholder="Description"/>
     </div>
 
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text mi">attach_money</span>
+      </div>
+      <input type="number" id="inv-cost" class="form-control" value="<?=$edit?$item["stock_cost"]:""?>" placeholder="Cost (RM per piece)"/>
+    </div>
+
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text mi">straighten</span>

@@ -65,7 +65,8 @@ var inv = {
       sku : document.getElementById("inv-sku").value,
       name : document.getElementById("inv-name").value,
       unit : document.getElementById("inv-unit").value,
-      desc : document.getElementById("inv-desc").value
+      desc : document.getElementById("inv-desc").value,
+      cost : document.getElementById("inv-cost").value,
     };
     var osku = document.getElementById("inv-osku").value;
     if (osku!="") { data.osku = osku; }
