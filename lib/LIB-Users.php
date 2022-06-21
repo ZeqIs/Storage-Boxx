@@ -19,19 +19,19 @@ class Users extends Core
   //  $email : user email
   //  $password : user password
   //  $id : user id (for updating only)
-  function save($name, $email, $role, $password, $id = null, $image = null, $imageName = null)
+  function save($name, $email, $role, $password, $image = null, $imageName = "default.png", $upload = false, $id = null)
   {
     // (B1) DATA SETUP + PASSWORD CHECK
     if (!$this->checker($password)) {
       return false;
     }
-    if ($image !== null && $imageName !== null) {
+    if (!!$image && $imageName !== "default.png" && $upload) {
       $myfile = fopen("../images/profileimg/$imageName", "w") or die("Unable to open file!");
       $txt = base64_decode($image);
       fwrite($myfile, $txt);
       fclose($myfile);
       $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
-      $data = [$name, $email, $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
+      $data = [$name, $email,  $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
       // (B2) ADD/UPDATE USER
       if ($id === null) {
         $this->DB->insert("users", $fields, $data);
@@ -41,9 +41,8 @@ class Users extends Core
       }
       return true;
     } else {
-      $fields = ["user_name", "user_email","user_role", "user_password", "user_profilepic"];
-      $data = [$name, $email, $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
-
+      $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
+      $data = [$name, $email,  $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
       // (B2) ADD/UPDATE USER
       if ($id === null) {
         $this->DB->insert("users", $fields, $data);
@@ -59,7 +58,7 @@ class Users extends Core
   //  $name : user name
   //  $email : user email
   //  $password : user password
-  function register($name, $email, $role, $password)
+  function register($name, $email,  $role, $password)
   {
     // (C1) ALREADY SIGNED IN
     global $_SESS;
@@ -78,7 +77,7 @@ class Users extends Core
     // USER ROLE?
 
     // (C4) SAVE
-    $this->save($name, $email, $role, $password);
+    $this->save($name, $email,  $role, $password);
     return true;
   }
 
