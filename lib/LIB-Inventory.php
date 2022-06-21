@@ -6,7 +6,7 @@ class Inventory extends Core {
   //  $unit : item unit
   //  $desc : item description
   //  $osku : old SKU, for editing only
-  function save ($sku, $name, $unit, $desc=null, $osku=null) {
+  function save ($sku, $name, $unit, $cost, $desc=null, $osku=null) {
     // (A1) CHECK SKU
     $checkSKU = $osku==null ? $sku : $osku ;
     $check = $this->get($sku);
@@ -17,8 +17,8 @@ class Inventory extends Core {
     }
 
     // (A2) DATA SETUP
-    $fields = ["stock_sku", "stock_name", "stock_desc", "stock_unit"];
-    $data = [$sku, $name, $desc, $unit];
+    $fields = ["stock_sku", "stock_name", "stock_desc", "stock_unit", "stock_cost"];
+    $data = [$sku, $name, $desc, $unit, $cost];
 
     // (A3) ADD ITEM
     if ($osku===null) { $this->DB->insert("stock", $fields, $data); }
