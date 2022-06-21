@@ -33,24 +33,26 @@ if ($edit) {
         <label for="profileimg" class="profileimg" style="position: absolute; right: 0; top: 75%;">Upload Profile Picture</label>
         <img style="max-width: 200px; max-height: 200px; min-width: 200px; min-height: 200px;" id="preview" class="img-thumbnail" src="<?= isset($user) && $user['user_profilepic'] ? './images/profileimg/' . $user['user_profilepic'] : './images/profileimg/default.png' ?>" alt="event-thumbnail" />
         <input type="file" name="profileimg" id="profileimg" hidden accept="image/png, image/jpeg" onclick="usr.fileUpload()" />
+        <input type="text" name="prevFile" id="prevFile" hidden value="<?= isset($user) && $user['user_profilepic'] ? $user['user_profilepic'] : 'default.png' ?>"/>
       </div>
     </div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text mi">person</span>
+        <span title="Username" class="input-group-text mi">person</span>
       </div>
       <input type="text" class="form-control" id="user_name" required value="<?= isset($user) ? $user["user_name"] : "" ?>" placeholder="Name" />
     </div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text mi">email</span>
+        <span title="Email" class="input-group-text mi">email</span>
       </div>
       <input type="email" class="form-control" id="user_email" required value="<?= isset($user) ? $user["user_email"] : "" ?>" placeholder="Email" />
     </div>
 
     <div class="input-group mb-3">
+
       <div class="input-group-prepend">
         <span class="input-group-text mi">badge</span>
       </div>
@@ -64,9 +66,16 @@ if ($edit) {
 
     <div class="input-group">
       <div class="input-group-prepend">
-        <span class="input-group-text mi">lock</span>
+        <span title="Password" class="input-group-text mi">lock</span>
       </div>
       <input type="password" id="user_password" class="form-control" placeholder="Password" required />
+    </div>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span title="Confirm Password" class="input-group-text mi">lock</span>
+      </div>
+      <input type="password" id="confirm_password" class="form-control" placeholder="Confirm Password" required />
     </div>
   </div>
 

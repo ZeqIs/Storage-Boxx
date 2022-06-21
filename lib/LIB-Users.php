@@ -19,7 +19,9 @@ class Users extends Core
   //  $email : user email
   //  $password : user password
   //  $id : user id (for updating only)
+  
   function save($name, $email, $role, $password, $image = null, $imageName = "default.png", $upload = false, $id = null)
+  
   {
     // (B1) DATA SETUP + PASSWORD CHECK
     if (!$this->checker($password)) {
@@ -41,8 +43,10 @@ class Users extends Core
       }
       return true;
     } else {
+      
       $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
       $data = [$name, $email,  $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
+
       // (B2) ADD/UPDATE USER
       if ($id === null) {
         $this->DB->insert("users", $fields, $data);
