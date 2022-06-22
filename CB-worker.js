@@ -24,7 +24,8 @@ cFiles = [
   "assets/PAGE-login.js",
   "assets/PAGE-move.js",
   "assets/PAGE-settings.js",
-  "assets/PAGE-users.js"
+  "assets/PAGE-users.js",
+  "assets/PAGE-unit.js",
 ];
 
 // (B) CREATE/INSTALL CACHE
