@@ -48,6 +48,9 @@ ALTER TABLE `users`
 ALTER TABLE `users` 
   ADD `user_profilepic` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ;
 
+ALTER TABLE `users`
+  ADD `user_role` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ;
+
 INSERT INTO `options` (`option_name`, `option_description`, `option_value`, `option_group`) VALUES
   ('EMAIL_FROM', 'System email from.', 'sys@site.com', 1),
   ('PAGE_PER', 'Number of entries per page.', '20', 1);

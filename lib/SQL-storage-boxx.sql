@@ -28,6 +28,7 @@ CREATE TABLE `users` (
   `user_email` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `user_profilepic` varchar(256) DEFAULT NULL
+  `user_role` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `stock`
