@@ -24,13 +24,31 @@ CREATE TABLE `stock_mvt` (
   `mvt_notes` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `stock_unit` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  UNIQUE KEY `id` (`id`)
+);
+
+INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
+(1, 'PC', 'Piece');
+INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
+(2, 'EA', 'Each');
+INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
+(3, 'BX', 'Box');
+INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
+(4, 'CS', 'Case'),
+(5, 'PL', 'Pile');
+
+
 CREATE TABLE `users` (
   `user_id` bigint(20) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
-  `user_profilepic` varchar(256) DEFAULT NULL
-  `user_role` varchar(256) DEFAULT NULL
+  `user_profilepic` varchar(256) DEFAULT NULL,
+  `user_role` varchar(256) DEFAULT "Admin"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `stock`
