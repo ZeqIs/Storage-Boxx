@@ -10,7 +10,9 @@ CREATE TABLE `stock` (
   `stock_name` varchar(255) NOT NULL,
   `stock_desc` varchar(255) DEFAULT NULL,
   `stock_unit` varchar(255) NOT NULL,
-  `stock_qty` decimal(12,2) NOT NULL DEFAULT 0.00
+  `stock_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `stock_cost` decimal(12,2) DEFAULT NULL,
+  `stock_pic` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `stock_mvt` (
