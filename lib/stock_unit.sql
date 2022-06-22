@@ -12,7 +12,7 @@ CREATE TABLE `stock_unit` (
   `code` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
 (1, 'PC', 'Piece');
