@@ -10,9 +10,7 @@ CREATE TABLE `stock` (
   `stock_name` varchar(255) NOT NULL,
   `stock_desc` varchar(255) DEFAULT NULL,
   `stock_unit` varchar(255) NOT NULL,
-  `stock_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
-  `stock_cost` decimal(12,2) DEFAULT NULL,
-  `stock_pic` varchar(255) DEFAULT NULL
+  `stock_qty` decimal(12,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `stock_mvt` (
@@ -24,31 +22,11 @@ CREATE TABLE `stock_mvt` (
   `mvt_notes` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `stock_unit` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  UNIQUE KEY `id` (`id`)
-);
-
-INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
-(1, 'PC', 'Piece');
-INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
-(2, 'EA', 'Each');
-INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
-(3, 'BX', 'Box');
-INSERT INTO `stock_unit` (`id`, `code`, `description`) VALUES
-(4, 'CS', 'Case'),
-(5, 'PL', 'Pile');
-
-
 CREATE TABLE `users` (
   `user_id` bigint(20) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
-  `user_profilepic` varchar(256) DEFAULT NULL,
-  `user_role` varchar(256) DEFAULT "Admin"
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `stock`
@@ -66,6 +44,18 @@ ALTER TABLE `users`
 
 ALTER TABLE `users`
   MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+ALTER TABLE `users` 
+  ADD `user_profilepic` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ;
+
+ALTER TABLE `stock` 
+  ADD `stock_pic` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ;
+
+ALTER TABLE `users`
+  ADD `user_role` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL ;
+
+ALTER TABLE `stock`
+  ADD `stock_cost` DECIMAL(12,2) DEFAULT NULL;
 
 INSERT INTO `options` (`option_name`, `option_description`, `option_value`, `option_group`) VALUES
   ('EMAIL_FROM', 'System email from.', 'sys@site.com', 1),

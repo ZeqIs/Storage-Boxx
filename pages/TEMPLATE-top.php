@@ -37,8 +37,17 @@
 
     <!-- (A7) BOOTSTRAP -->
     <!-- https://getbootstrap.com/ -->
-    <link rel="stylesheet" href="<?=HOST_ASSETS?>bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
     <script defer src="<?=HOST_ASSETS?>bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="<?=HOST_ASSETS?>bootstrap.min.css">
+    <link rel="stylesheet" href="<?=HOST_ASSETS?>storageboxx.css">
+    
 
     <!-- (A8) BURN-IN CSS -->
     <style>
@@ -54,6 +63,7 @@
     /* COMMON & FORM */
     #cb-body,body{min-height:100vh}#cb-toggle{display:none}#cb-side{min-width:170px}#cb-side a{color:#fff}#cb-side .mi{color:#6a6a6a}@media screen and (max-width:768px){#cb-toggle{display:block}#cb-side{display:none}#cb-side.show{display:block}}
     .zebra .d-flex:nth-child(odd){background:#f7f7f7}#reader video{height:400px}.pagination{border:1px solid #c7daf7;background:#f0f6ff}
+    .center {display: flex;justify-content: center;}
     </style>
 
     <!-- (A9) COMMON INTERFACE -->
@@ -107,7 +117,10 @@
       <?php if (isset($_SESS["user"])) { ?>
       <!-- (C1) LEFT SIDEBAR -->
       <nav id="cb-side" class="bg-dark text-white p-3">
-        <img src="<?=HOST_ASSETS?>favicon.png" loading="lazy" width="32" height="32"/>
+        <div style="display: flex">
+          <img src="<?=HOST_ASSETS?>favicon.png" loading="lazy" width="32" height="32"/>
+          <h3>Storage-Boxx</h3>
+        </div>
         <hr>
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -116,20 +129,52 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?=HOST_BASE?>inventory">
-              <span class="mi mi-smol">inventory_2</span> Items
-            </a>
+              <a class="nav-link collapsed text-truncate" href="#submenu1" data-toggle="collapse" data-target="#submenu1"><span class="mi mi-smol">inventory_2</span> Items</a>
+              <div class="collapse" id="submenu1" aria-expanded="false">
+                  <ul class="flex-column pl-2 nav">
+                      <li class="nav-item">
+                        <a class="nav-link px-2" href="<?=HOST_BASE?>inventory">
+                          <span class="mi mi-smol">post_add</span> Manage Item
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link px-2" href="<?=HOST_BASE?>check">
+                          <span class="mi mi-smol">manage_search</span> Check Item
+                        </a>
+                      </li>
+                  </ul>
+              </div>
           </li>
+          <?php 
+              $user = $this->DB->fetch(
+                "SELECT `user_role` FROM `users` WHERE `user_role`=?", [$_SESS["user"]["user_role"]]
+              );
+              if($user['user_role'] == 'Admin'){
+          ?>
           <li class="nav-item">
             <a class="nav-link" href="<?=HOST_BASE?>users">
               <span class="mi mi-smol">people</span> Users
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?=HOST_BASE?>settings">
-              <span class="mi mi-smol">settings</span> Settings
-            </a>
+            <a class="nav-link collapsed text-truncate" href="#submenu2" data-toggle="collapse" data-target="#submenu2"><span class="mi mi-smol">settings</span> Settings</a>
+              <div class="collapse" id="submenu2" aria-expanded="false">
+                  <ul class="flex-column pl-2 nav">
+                      <li class="nav-item">
+                        <a class="nav-link px-2" href="<?=HOST_BASE?>settings">
+                          <span class="mi mi-smol">settings_applications</span> System Settings
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link px-2" href="<?=HOST_BASE?>inventory-setting">
+                          <span class="mi mi-smol">display_settings</span> Inventory Settings
+                        </a>
+                      </li>
+                  </ul>
+              </div>
           </li>
+          <?php
+          }?>
         </ul>
         <hr>
         <ul class="navbar-nav">
@@ -152,9 +197,9 @@
               menu
             </button>
           </div>
-          <a class="btn btn-sm me-1 text-white mi" href="<?=HOST_BASE?>check">
+          <!-- <a class="btn btn-sm me-1 text-white mi" href="<?=HOST_BASE?>check">
             qr_code_scanner
-          </a>
+          </a> -->
           <button class="btn btn-sm text-white mi" onclick="cb.bye()">
             logout
           </button>

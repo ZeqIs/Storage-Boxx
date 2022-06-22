@@ -6,7 +6,7 @@ class Inventory extends Core {
   //  $unit : item unit
   //  $desc : item description
   //  $osku : old SKU, for editing only
-  function save ($sku, $name, $unit, $desc=null, $osku=null) {
+  function save ($sku, $name, $unit, $cost, $desc=null, $osku=null, $image = null, $imageName = "default-product.png", $upload = false) {
     // (A1) CHECK SKU
     $checkSKU = $osku==null ? $sku : $osku ;
     $check = $this->get($sku);
@@ -16,9 +16,18 @@ class Inventory extends Core {
       return false;
     }
 
-    // (A2) DATA SETUP
-    $fields = ["stock_sku", "stock_name", "stock_desc", "stock_unit"];
-    $data = [$sku, $name, $desc, $unit];
+    // if image is not default
+    if (!!$image && $imageName !== "default.png" && $upload) {
+      $myfile = fopen("../images/product/$imageName", "w") or die("Unable to open file!");
+      $txt = base64_decode($image);
+      fwrite($myfile, $txt); 
+      fclose($myfile);
+    }
+    
+      // (A2) DATA SETUP
+      $fields = ["stock_sku", "stock_name", "stock_desc", "stock_unit", "stock_cost", "stock_pic"];
+      $data = [$sku, $name, $desc, $unit, $cost, $imageName];
+    
 
     // (A3) ADD ITEM
     if ($osku===null) { $this->DB->insert("stock", $fields, $data); }
@@ -56,7 +65,10 @@ class Inventory extends Core {
     // (B2) REMOVE MOVEMENT
     $this->DB->delete("stock_mvt", "`stock_sku`=?", [$sku]);
 
-    // (B3) RESULT
+    //(B3) REMOVE UNIT
+    $this->DB->delete("stock_unit", "`description`=?", [$sku]);
+
+    // (B4) RESULT
     $this->DB->end();
     return true;
   }
@@ -109,11 +121,17 @@ class Inventory extends Core {
       $this->error = "Invalid direction";
       return false;
     }
+    $item = $this->get($sku);
     if (!is_numeric($qty)) {
       $this->error = "Invalid quantity";
       return false;
     }
-    $item = $this->get($sku);
+    
+    if($direction == "O" && $qty > $item["stock_qty"]){
+      $this->error = "Stock Out exceeded current quantity";
+      return false;
+    }
+
     if ($item===false) { return false; }
     if (!is_array($item)) {
       $this->error = "$sku - Invalid SKU";
@@ -168,5 +186,12 @@ class Inventory extends Core {
     return $page != null
      ? ["data" => $items, "page" => $pgn]
      : $items ;
+  }
+
+  //(G) GET STOCK UNIT
+  function getUnit(){
+    return $this->DB->fetchAll(
+      "SELECT * FROM `stock_unit`"
+    );
   }
 }

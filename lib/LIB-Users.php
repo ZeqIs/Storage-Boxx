@@ -1,11 +1,14 @@
 <?php
-class Users extends Core {
+class Users extends Core
+{
   // (A) PASSWORD CHECKER
   //  $password : password to check
   //  $pattern : regex pattern check (at least 8 characters, alphanumeric)
-  function checker ($password, $pattern='/^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/i') {
-    if (preg_match($pattern, $password)) { return true; }
-    else {
+  function checker($password, $pattern = '/^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/i')
+  {
+    if (preg_match($pattern, $password)) {
+      return true;
+    } else {
       $this->error = "Password must be at least 8 characters alphanumeric.";
       return false;
     }
@@ -16,27 +19,51 @@ class Users extends Core {
   //  $email : user email
   //  $password : user password
   //  $id : user id (for updating only)
-  function save ($name, $email, $password, $id=null) {
+  
+  function save($name, $email, $role, $password, $image = null, $imageName = "default.png", $upload = false, $id = null)
+  
+  {
     // (B1) DATA SETUP + PASSWORD CHECK
-    if (!$this->checker($password)) { return false; }
-    $fields = ["user_name", "user_email", "user_password"];
-    $data = [$name, $email, password_hash($password, PASSWORD_DEFAULT)];
-
-    // (B2) ADD/UPDATE USER
-    if ($id===null) {
-      $this->DB->insert("users", $fields, $data);
-    } else {
-      $data[] = $id;
-      $this->DB->update("users", $fields, "`user_id`=?", $data);
+    if (!$this->checker($password)) {
+      return false;
     }
-    return true;
+    if (!!$image && $imageName !== "default.png" && $upload) {
+      $myfile = fopen("../images/profileimg/$imageName", "w") or die("Unable to open file!");
+      $txt = base64_decode($image);
+      fwrite($myfile, $txt);
+      fclose($myfile);
+      $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
+      $data = [$name, $email,  $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
+      // (B2) ADD/UPDATE USER
+      if ($id === null) {
+        $this->DB->insert("users", $fields, $data);
+      } else {
+        $data[] = $id;
+        $this->DB->update("users", $fields, "`user_id`=?", $data);
+      }
+      return true;
+    } else {
+      
+      $fields = ["user_name", "user_email", "user_role", "user_password", "user_profilepic"];
+      $data = [$name, $email,  $role, password_hash($password, PASSWORD_DEFAULT), $imageName];
+
+      // (B2) ADD/UPDATE USER
+      if ($id === null) {
+        $this->DB->insert("users", $fields, $data);
+      } else {
+        $data[] = $id;
+        $this->DB->update("users", $fields, "`user_id`=?", $data);
+      }
+      return true;
+    }
   }
 
   // (C) REGISTER USER - RESTRICTED VERSION OF "SAVE" FOR FRONT-END
   //  $name : user name
   //  $email : user email
   //  $password : user password
-  function register ($name, $email, $password) {
+  function register($name, $email,  $role, $password)
+  {
     // (C1) ALREADY SIGNED IN
     global $_SESS;
     if (isset($_SESS["user"])) {
@@ -54,22 +81,24 @@ class Users extends Core {
     // USER ROLE?
 
     // (C4) SAVE
-    $this->save($name, $email, $password);
+    $this->save($name, $email,  $role, $password);
     return true;
   }
 
   // (D) DELETE USER
   //  $id : user id
-  function del ($id) {
+  function del($id)
+  {
     $this->DB->delete("users", "`user_id`=?", [$id]);
     return true;
   }
 
   // (E) GET USER
   //  $id : user id or email
-  function get ($id) {
+  function get($id)
+  {
     return $this->DB->fetch(
-      "SELECT * FROM `users` WHERE `user_". (is_numeric($id)?"id":"email") ."`=?",
+      "SELECT * FROM `users` WHERE `user_" . (is_numeric($id) ? "id" : "email") . "`=?",
       [$id]
     );
   }
@@ -77,7 +106,8 @@ class Users extends Core {
   // (F) GET ALL OR SEARCH USERS
   //  $search : optional, user name or email
   //  $page : optional, current page number
-  function getAll ($search=null, $page=null) {
+  function getAll($search = null, $page = null)
+  {
     // (F1) PARITAL USERS SQL + DATA
     $sql = "FROM `users`";
     $data = null;
@@ -89,7 +119,8 @@ class Users extends Core {
     // (F2) PAGINATION
     if ($page != null) {
       $pgn = $this->core->paginator(
-        $this->DB->fetchCol("SELECT COUNT(*) $sql", $data), $page
+        $this->DB->fetchCol("SELECT COUNT(*) $sql", $data),
+        $page
       );
       $sql .= " LIMIT {$pgn["x"]}, {$pgn["y"]}";
     }
@@ -97,15 +128,16 @@ class Users extends Core {
     // (F3) RESULTS
     $users = $this->DB->fetchAll("SELECT * $sql", $data, "user_id");
     return $page != null
-     ? ["data" => $users, "page" => $pgn]
-     : $users ;
+      ? ["data" => $users, "page" => $pgn]
+      : $users;
   }
 
   // (G) VERIFY EMAIL & PASSWORD (LOGIN OR SECURITY CHECK)
   // RETURNS USER ARRAY IF VALID, FALSE IF INVALID
   //  $email : user email
   //  $password : user password
-  function verify ($email, $password) {
+  function verify($email, $password)
+  {
     // (G1) GET USER
     $user = $this->get($email);
     $pass = is_array($user);
@@ -126,14 +158,19 @@ class Users extends Core {
   // (H) LOGIN
   //  $email : user email
   //  $password : user password
-  function login ($email, $password) {
+  function login($email, $password)
+  {
     // (H1) ALREADY SIGNED IN
     global $_SESS;
-    if (isset($_SESS["user"])) { return true; }
+    if (isset($_SESS["user"])) {
+      return true;
+    }
 
     // (H2) VERIFY EMAIL PASSWORD
     $user = $this->verify($email, $password);
-    if ($user===false) { return false; }
+    if ($user === false) {
+      return false;
+    }
 
     // (H3) SESSION START
     $_SESS["user"] = $user;
@@ -142,10 +179,13 @@ class Users extends Core {
   }
 
   // (I) LOGOUT
-  function logout () {
+  function logout()
+  {
     // (I1) ALREADY SIGNED OFF
     global $_SESS;
-    if (!isset($_SESS["user"])) { return true; }
+    if (!isset($_SESS["user"])) {
+      return true;
+    }
 
     // (I2) END SESSION
     $this->core->Session->destroy();

@@ -7,7 +7,9 @@ require PATH_PAGES . "TEMPLATE-top.php"; ?>
 <h3 class="mb-3">STOCK MOVEMENT</h3>
 <div class="bg-white border p-4 mb-3">
   <!-- (A) QR SCANNER -->
-  <div id="reader" class="mb-3"></div>
+  <div class="center mb-3">
+    <div id="reader" style="width: 500px"></div>
+  </div>
 
   <!-- (B) MOVEMENT FORM -->
   <form autocomplete="off" onsubmit="return move.save()">
@@ -43,7 +45,9 @@ require PATH_PAGES . "TEMPLATE-top.php"; ?>
       <input type="text" class="form-control" id="mvt-sku" required autofocus placeholder="Item SKU (enter or scan)"/>
     </div>
 
-    <input type="submit" class="btn btn-primary" value="Save"/>
+    <div style="display: flex; justify-Content: flex-end; align-Items: flex-end;">
+      <input type="submit" class="btn btn-primary" value="Save"/>
+    </div>
   </form>
 </div>
 

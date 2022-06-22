@@ -5,22 +5,36 @@ $items = $_CORE->autoCall("Inventory", "getAll");
 // (B) DRAW ITEMS LIST
 if (is_array($items["data"])) { foreach ($items["data"] as $sku=>$i) { ?>
 <div class="d-flex align-items-center border p-2">
-  <div class="flex-grow-1">
-    <strong>[<?=$sku?>] <?=$i["stock_name"]?></strong><br>
-    <small><?=$i["stock_desc"]?></small><br>
-    <small><?=$i["stock_qty"]?> <?=$i["stock_unit"]?></small>
+  <div class="p-2" style="max-width: 100px;">
+    <img style="border-radius: 5px; border: 1px solid black;" alt="event-thumbnail" src="<?= $i['stock_pic'] ? './images/product/'.$i['stock_pic'] : './images/product/default-product.png' ?>" loading="lazy" width="64" height="64" />
   </div>
-  <div>
-    <button class="btn btn-danger btn-sm mi" onclick="inv.del('<?=$sku?>')">
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>SKU: </strong> <?=$sku?>
+  </div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>Name: </strong> <?=$i["stock_name"]?><br>
+    <strong>Description: </strong><?=$i["stock_desc"]?>
+  </div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>Quantity: </strong><?=$i["stock_qty"]?>
+  </div>
+  <div class="p-2 flex-fill">
+    <strong>Unit: </strong> <?=$i["stock_unit"]?>
+  </div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>Cost: </strong> RM<?=$i["stock_cost"]?>
+  </div>
+  <div class="p-2 flex-fill ">
+    <button title="Delete" class="btn btn-danger btn-sm mi" onclick="inv.del('<?=$sku?>')">
       delete
     </button>
-    <button class="btn btn-primary btn-sm mi" onclick="inv.addEdit('<?=$sku?>')">
+    <button title="Edit" class="btn btn-primary btn-sm mi" onclick="inv.addEdit('<?=$sku?>')">
       edit
     </button>
-    <button class="btn btn-primary btn-sm mi" onclick="inv.qrcode('<?=$sku?>')">
-      print
+    <button title="QR Code" class="btn btn-primary btn-sm mi" onclick="inv.qrcode('<?=$sku?>', '<?=$i['stock_name']?>','<?=$i['stock_desc']?>', '<?=$i['stock_unit']?>', '<?=$i['stock_qty']?>', '<?=$i['stock_cost']?>')">
+      qr_code
     </button>
-    <button class="btn btn-primary btn-sm mi" onclick="check.load('<?=$sku?>')">
+    <button title="History" class="btn btn-warning btn-sm mi" onclick="check.load('<?=$sku?>')">
       history
     </button>
   </div>

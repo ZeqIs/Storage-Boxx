@@ -6,6 +6,7 @@ cFiles = [
   "assets/bootstrap.bundle.min.js.map",
   "assets/bootstrap.min.css",
   "assets/bootstrap.min.css.map",
+  "assets/storageboxx.css",
   // (A2) ICONS + IMAGES
   "assets/favicon.png",
   "assets/ico-512.png",
@@ -23,7 +24,8 @@ cFiles = [
   "assets/PAGE-login.js",
   "assets/PAGE-move.js",
   "assets/PAGE-settings.js",
-  "assets/PAGE-users.js"
+  "assets/PAGE-users.js",
+  "assets/PAGE-unit.js",
 ];
 
 // (B) CREATE/INSTALL CACHE
