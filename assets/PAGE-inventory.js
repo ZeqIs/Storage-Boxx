@@ -58,6 +58,25 @@ var inv = {
     document.getElementById("inv-unit").value = u;
   },
 
+  fileUpload: () => {
+    inv.imageName = "";
+    var fileInput = document.querySelector("#profileimg");
+    var prevFile = document.querySelector("#prevFile");
+    inv.imageName = prevFile.value;
+    console.log(prevFile.value, inv.imageName);
+    fileInput.addEventListener("change", function (e) {
+      inv.upload = true;
+      inv.imageName = e.target.files[0].name;
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const uploaded_image = reader.result;
+        inv.imageURL = reader.result.split(",");
+        document.querySelector("#preview").src = uploaded_image;
+      });
+      reader.readAsDataURL(this.files[0]);
+    });
+  },
+
   // (G) SAVE ITEM
   save : () => {
     // (G1) GET DATA
@@ -67,6 +86,11 @@ var inv = {
       unit : document.getElementById("inv-unit").value,
       desc : document.getElementById("inv-desc").value,
       cost : document.getElementById("inv-cost").value,
+      image: inv.upload ? inv.imageURL[1] : "",
+      imageName: inv.upload
+        ? inv.imageName
+        : document.getElementById("prevFile").value,
+      upload: inv.upload,
     };
     var osku = document.getElementById("inv-osku").value;
     if (osku!="") { data.osku = osku; }

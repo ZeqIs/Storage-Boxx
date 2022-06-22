@@ -7,10 +7,35 @@ if ($edit) {
 }
 
 // (B) ITEM FORM ?>
+<style>
+.profileimg {
+    cursor: pointer;
+    background-color: #0d6efd;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-color: #0d6efd;
+    border-radius: .3rem;
+  }
+
+  #profileimg {
+    opacity: 0;
+    position: relative;
+    z-index: 2;
+  }
+</style>
 <h3 class="mb-3"><?=$edit?"EDIT":"ADD"?> ITEM</h3>
 
 <form onsubmit="return inv.save()">
   <div class="bg-white border p-4 mb-3">
+    <div class="center input-group mb-3">
+      <div class="input-group-prepend">
+        <label for="profileimg" class="profileimg" style="position: absolute; right: 0; top: 75%;">Upload Product Picture</label>
+        <img style="max-width: 200px; max-height: 200px; min-width: 200px; min-height: 200px;" id="preview" class="img-thumbnail" src="<?= $item['stock_pic'] ? './images/product/' . $item['stock_pic'] : './images/product/default-product.png' ?>" alt="event-thumbnail" />
+        <input type="file" name="profileimg" id="profileimg" hidden accept="image/png, image/jpeg" onclick="inv.fileUpload()" />
+        <input type="text" name="prevFile" id="prevFile" hidden value="<?= $edit ? $item['stock_pic'] : 'default-product.png' ?>"/>
+      </div>
+    </div>
+
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text mi">qr_code</span>
@@ -41,7 +66,7 @@ if ($edit) {
       <input type="number" id="inv-cost" class="form-control" value="<?=$edit?$item["stock_cost"]:""?>" placeholder="Cost (RM per piece)"/>
     </div>
 
-    <div class="input-group">
+    <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text mi">straighten</span>
       </div>
@@ -57,7 +82,6 @@ if ($edit) {
         ?> 
       </select>
     </div>
-  </div>
 
   <input type="button" class="col btn btn-danger btn-lg" value="Back" onclick="cb.page(1)"/>
   <input type="submit" class="col btn btn-primary btn-lg" value="Save"/>

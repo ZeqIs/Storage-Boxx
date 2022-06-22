@@ -6,7 +6,7 @@ class Inventory extends Core {
   //  $unit : item unit
   //  $desc : item description
   //  $osku : old SKU, for editing only
-  function save ($sku, $name, $unit, $cost, $desc=null, $osku=null) {
+  function save ($sku, $name, $unit, $cost, $desc=null, $osku=null, $image = null, $imageName = "default-product.png", $upload = false) {
     // (A1) CHECK SKU
     $checkSKU = $osku==null ? $sku : $osku ;
     $check = $this->get($sku);
@@ -16,9 +16,18 @@ class Inventory extends Core {
       return false;
     }
 
-    // (A2) DATA SETUP
-    $fields = ["stock_sku", "stock_name", "stock_desc", "stock_unit", "stock_cost"];
-    $data = [$sku, $name, $desc, $unit, $cost];
+    // if image is not default
+    if (!!$image && $imageName !== "default.png" && $upload) {
+      $myfile = fopen("../images/product/$imageName", "w") or die("Unable to open file!");
+      $txt = base64_decode($image);
+      fwrite($myfile, $txt); 
+      fclose($myfile);
+    }
+    
+      // (A2) DATA SETUP
+      $fields = ["stock_sku", "stock_name", "stock_desc", "stock_unit", "stock_cost", "stock_pic"];
+      $data = [$sku, $name, $desc, $unit, $cost, $imageName];
+    
 
     // (A3) ADD ITEM
     if ($osku===null) { $this->DB->insert("stock", $fields, $data); }
