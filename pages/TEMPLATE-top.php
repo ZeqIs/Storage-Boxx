@@ -157,9 +157,21 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?=HOST_BASE?>settings">
-              <span class="mi mi-smol">settings</span> Settings
-            </a>
+            <a class="nav-link collapsed text-truncate" href="#submenu2" data-toggle="collapse" data-target="#submenu2"><span class="mi mi-smol">settings</span> Settings</a>
+              <div class="collapse" id="submenu2" aria-expanded="false">
+                  <ul class="flex-column pl-2 nav">
+                      <li class="nav-item">
+                        <a class="nav-link px-2" href="<?=HOST_BASE?>settings">
+                          <span class="mi mi-smol">settings_applications</span> System Settings
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link px-2" href="<?=HOST_BASE?>inventory-setting">
+                          <span class="mi mi-smol">display_settings</span> Inventory Settings
+                        </a>
+                      </li>
+                  </ul>
+              </div>
           </li>
           <?php
           }?>

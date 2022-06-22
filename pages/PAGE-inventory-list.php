@@ -5,13 +5,26 @@ $items = $_CORE->autoCall("Inventory", "getAll");
 // (B) DRAW ITEMS LIST
 if (is_array($items["data"])) { foreach ($items["data"] as $sku=>$i) { ?>
 <div class="d-flex align-items-center border p-2">
-  <div class="flex-grow-1">
-    <strong>[<?=$sku?>] <?=$i["stock_name"]?></strong><br>
-    <small><?=$i["stock_desc"]?></small><br>
-    <small><?=$i["stock_qty"]?><br>
-    <?=$i["stock_unit"]?></small>
+  <div class="p-2" style="max-width: 100px;">
+    <img style="border-radius: 5px; border: 1px solid black;" alt="event-thumbnail" src="<?= $i['stock_pic'] ? './images/product/'.$i['stock_pic'] : './images/product/default-product.png' ?>" loading="lazy" width="64" height="64" />
   </div>
-  <div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>SKU: </strong> <?=$sku?>
+  </div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>Name: </strong> <?=$i["stock_name"]?><br>
+    <strong>Description: </strong><?=$i["stock_desc"]?>
+  </div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>Quantity: </strong><?=$i["stock_qty"]?>
+  </div>
+  <div class="p-2 flex-fill">
+    <strong>Unit: </strong> <?=$i["stock_unit"]?>
+  </div>
+  <div class="p-2" style="flex-basis: 200px; flex-grow: 0; flex-shrink: 0;">
+    <strong>Cost: </strong> RM<?=$i["stock_cost"]?>
+  </div>
+  <div class="p-2 flex-fill ">
     <button title="Delete" class="btn btn-danger btn-sm mi" onclick="inv.del('<?=$sku?>')">
       delete
     </button>
