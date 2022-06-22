@@ -30,20 +30,15 @@ require PATH_PAGES . "TEMPLATE-top.php";
             <tr>  
                 <td><label>Quantity</label></td>  
                 <td><b><?=$_GET["qty"]?></b></td> 
-                <td><label>Unit</label></td>  
-                <td><b><?=$_GET["unit"]?></b></td>  
-            </tr>    
-            </table>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-bordered">
-            <tr>  
                 <td><label>Description</label></td>  
-            </tr>
+                <td><b><?=$_GET["desc"]?></b></td>  
+            </tr>   
             <tr>  
-                <td><b><?=$_GET["desc"]?></b></td>
-            </tr>
+                <td><label>Unit</label></td>  
+                <td><b><?=$_GET["unit"]?></b></td> 
+                <td><label>Cost</label></td>  
+                <td><b><?=$_GET["cost"]?></b></td>  
+            </tr> 
             </table>
           </div>
 

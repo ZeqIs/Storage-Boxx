@@ -126,8 +126,8 @@ var inv = {
   },
 
   // (I) GENERATE QR CODE
-  qrcode : (sku, name, desc, unit, qty) => {
-    window.open(cbhost.base + "qrcode/?sku="+sku + "&name="+name + "&desc="+desc + "&unit="+unit + "&qty="+qty);
+  qrcode : (sku, name, desc, unit, qty, cost) => {
+    window.open(cbhost.base + "qrcode/?sku="+sku + "&name="+name + "&desc="+desc + "&unit="+unit + "&qty="+qty + "&cost="+cost);
   }
 };
 window.addEventListener("load", inv.list);
