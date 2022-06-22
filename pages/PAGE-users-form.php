@@ -64,15 +64,14 @@ if ($edit) {
         </select>
     </div>
 
-    <div class="input-group mb-3">
+    <div class="input-group">
       <div class="input-group-prepend">
         <span title="Password" class="input-group-text mi">lock</span>
       </div>
       <input type="password" id="user_password" class="form-control" placeholder="Password" required />
     </div>
-  
 
-    <div class="input-group mb-3">
+    <div class="input-group">
       <div class="input-group-prepend">
         <span title="Confirm Password" class="input-group-text mi">lock</span>
       </div>
